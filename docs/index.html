@@ -103,11 +103,12 @@
     <details id="methods-details">
       <summary>
         <span class="summary-title">How this works</span>
-        <span class="summary-sub">Method, accuracy, what it leaves out, sources · <span id="built"></span></span>
+        <span class="summary-sub">Federal income tax only · Method, accuracy, what it leaves out, sources · <span id="built"></span></span>
       </summary>
       <div class="methods-grid">
         <div>
           <h3>The estimate</h3>
+          <p><strong>Federal income tax only.</strong> The tool changes and measures the federal personal income tax. Provincial income taxes stay at current law; the only provincial figure shown is the knock-on effect on provincial revenue.</p>
           <p>The explorer starts from the Canada Revenue Agency's statistics on 2024 tax returns. These give the number of filers and their income, credits and federal tax in 19 income ranges. It turns those ranges into about 500 representative groups of filers and computes each group's federal tax under current law and under your reform. Results are grouped by total income in 2024, and filer counts are 2024 counts.</p>
           <p>Brackets are entered in 2026 dollars. Incomes grow with nominal GDP: Statistics Canada actuals, then <span id="growth-assumption"></span> a year. Brackets and credits are indexed to inflation (<span id="cpi-assumption"></span>). The reduced basic personal amount for top earners stays at $14,829. Quebec residents' federal tax is reduced by the 16.5% Quebec abatement. Non-refundable credits are valued at the lowest rate, so changing that rate changes every taxpayer's credits too.</p>
           <p><strong>Static</strong> estimates assume nobody changes behaviour. The <strong>behavioural</strong> estimates let filers whose marginal tax rate changes adjust their taxable income. The size of that response comes from the research literature (the "elasticity of taxable income"):</p>
