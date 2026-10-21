@@ -1,7 +1,7 @@
 """Filer-level engine behind the web explorer (docs/).
 
 The explorer needs answers the aggregate model can't give, such as how many
-filers a reform touches and by how much. So it represents CRA's 19 income ranges
+filers a reform affects and by how much. So it represents CRA's 19 income ranges
 as about 500 representative "filer groups" (records). Each record has a taxable
 income, a weight (number of filers), a Quebec share and credit amounts. Federal
 tax is computed record by record, under current law and under the reform.
