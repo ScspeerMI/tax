@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Federal Income Tax Explorer · Sean Speer</title>
+  <meta name="description" content="What a change to Canada's federal income tax would cost, and who it touches.">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrap">
+    <header class="sitebar">
+      <a class="name" href="/">Sean Speer</a>
+      <nav aria-label="Site"><a href="/">&larr; All work</a></nav>
+    </header>
+    <section class="mast">
+      <h1>Federal Income Tax Explorer</h1>
+      <p class="dek">What a change to Canada's federal income tax would cost, and who it touches.</p>
+    </section>
+  </div>
+
+  <main class="wrap layout" id="explorer">
+      <label class="field preset-block">
+        <span class="label">Preset</span>
+        <select id="preset"></select>
+      </label>
+
+      <section class="headline" id="headline">
+        <p id="errors" class="errors" role="alert"></p>
+        <p class="verdict" id="verdict" aria-live="polite">
+          <span class="verb" id="verb"></span>
+          <span class="big" id="ten-year">Loading…</span>
+          <span class="period" id="period"></span>
+        </p>
+        <p class="range" id="range-line"></p>
+        <ul class="secondary" id="secondary" hidden>
+          <li id="first-year"></li>
+          <li id="affected"></li>
+        </ul>
+        <div class="headline-row" id="headline-row" hidden>
+          <div class="response" role="radiogroup" aria-labelledby="response-label">
+            <span class="response-label" id="response-label">Behavioural response</span>
+            <div class="segmented">
+              <label><input type="radio" name="case" value="low"><span>Small</span></label>
+              <label><input type="radio" name="case" value="central" checked><span>Central</span></label>
+              <label><input type="radio" name="case" value="high"><span>Large</span></label>
+            </div>
+          </div>
+          <button type="button" id="copy-link" class="button secondary">Copy link</button>
+        </div>
+        <p class="caveat" id="caveat" hidden>Not an official estimate · <a href="#methods" id="methods-link">How this works</a></p>
+      </section>
+
+      <div class="form-block" id="form-block">
+        <fieldset class="brackets">
+          <legend class="label">Brackets</legend>
+          <div class="bracket-head" aria-hidden="true"><span>From (2026 $)</span><span>Rate</span><span></span></div>
+          <div id="bracket-rows"></div>
+          <button type="button" id="add-bracket" class="link-button">+ Add a bracket</button>
+        </fieldset>
+
+        <label class="field">
+          <span class="label">Basic personal amount</span>
+          <span class="input-prefix"><span>$</span><input id="bpa" type="number" inputmode="numeric" min="0" step="100"></span>
+          <span class="hint" id="bpa-hint"></span>
+        </label>
+      </div>
+
+      <div class="details" id="details" hidden>
+        <section class="block">
+          <h2>Change in federal revenue by year</h2>
+          <div class="legend" id="rev-legend"></div>
+          <div id="rev-chart" class="chart"></div>
+        </section>
+
+        <section class="block">
+          <h2>Change in tax per filer, <span class="first-year"></span></h2>
+          <p class="caption">Before behavioural response</p>
+          <div class="legend" id="dist-legend"></div>
+          <div id="dist-chart" class="chart"></div>
+        </section>
+
+        <section class="block">
+          <h2>Who is affected, <span class="first-year"></span></h2>
+          <div class="table-scroll">
+            <table id="dist-table"><thead></thead><tbody></tbody><tfoot></tfoot></table>
+          </div>
+        </section>
+
+        <section class="block">
+          <h2>Debt and provinces</h2>
+          <ul class="facts">
+            <li id="fact-debt"></li>
+            <li id="fact-prov"></li>
+          </ul>
+        </section>
+      </div>
+  </main>
+
+  <section class="wrap methods" id="methods">
+    <details id="methods-details">
+      <summary>
+        <span class="summary-title">How this works</span>
+        <span class="summary-sub">Method, accuracy, what it leaves out, sources · <span id="built"></span></span>
+      </summary>
+      <div class="methods-grid">
+        <div>
+          <h3>The estimate</h3>
+          <p>The explorer starts from the Canada Revenue Agency's statistics on 2024 tax returns. These give the number of filers and their income, credits and federal tax in 19 income ranges. It turns those ranges into about 500 representative groups of filers and computes each group's federal tax under current law and under your reform. Results are grouped by total income in 2024, and filer counts are 2024 counts.</p>
+          <p>Brackets are entered in 2026 dollars. Incomes grow with nominal GDP: Statistics Canada actuals, then <span id="growth-assumption"></span> a year. Brackets and credits are indexed to inflation (<span id="cpi-assumption"></span>). The reduced basic personal amount for top earners stays at $14,829. Quebec residents' federal tax is reduced by the 16.5% Quebec abatement. Non-refundable credits are valued at the lowest rate, so changing that rate changes every taxpayer's credits too.</p>
+          <p><strong>Static</strong> estimates assume nobody changes behaviour. The <strong>behavioural</strong> estimates let filers whose marginal tax rate changes adjust their taxable income. The size of that response comes from the research literature (the "elasticity of taxable income"):</p>
+          <ul id="eti-list"></ul>
+          <p>Debt costs use the current 10-year Government of Canada bond yield. Provincial effects arise because most provinces tax the federal definition of income, so when filers report more or less income, provinces gain or lose too.</p>
+        </div>
+        <div>
+          <h3>How accurate is it?</h3>
+          <p>Before any reform, the model is calibrated to reproduce CRA's federal tax by income range for 2024:</p>
+          <div class="table-scroll"><table id="calibration"><thead><tr><th scope="col">Total income</th><th scope="col">Modelled tax</th><th scope="col">CRA tax</th><th scope="col">Modelled taxpayers</th><th scope="col">CRA taxpayers</th></tr></thead><tbody></tbody></table></div>
+          <p>A test against a published estimate: <span id="benchmark-low"></span> <span id="benchmark-model"></span></p>
+          <h3>What it leaves out</h3>
+          <ul>
+            <li>Effects on the economy (growth, investment, wages). These are static and behavioural estimates only.</li>
+            <li>Benefits and refundable credits (Canada Child Benefit, GST credit, OAS clawback), and provincial tax changes.</li>
+            <li>Detail within each income range. Credits other than the basic personal amount are set at each range's average, so who owes tax at all is approximate.</li>
+            <li>About $2.5 billion of the tax CRA reports from filers with total incomes under $40,000 (of $223 billion in all), which the model can't attribute. It also counts fewer of those filers as taxpayers than CRA does.</li>
+            <li>The very top of the income distribution, which is estimated from one group average above $250,000. The top bracket's base is sensitive to it.</li>
+            <li>Tax years, not fiscal years. Government budget tables use fiscal years and include timing lags.</li>
+          </ul>
+          <p class="caution"><strong>This is not an official estimate.</strong> It is a back-of-the-envelope estimate built from published aggregates. Use it to check official estimates, not to replace them.</p>
+        </div>
+      </div>
+      <h3>Sources</h3>
+      <ul id="sources" class="sources"></ul>
+    </details>
+  </section>
+
+  <footer class="wrap">
+    <span>A personal project by Sean Speer.</span>
+    <a href="/">seanspeer.com</a>
+  </footer>
+
+  <button type="button" id="mobile-bar" class="mobile-bar" hidden></button>
+  <div id="tooltip" class="tooltip" role="status" hidden></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

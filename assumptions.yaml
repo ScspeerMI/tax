@@ -1,0 +1,167 @@
+# Assumptions register.
+#
+# Every number the models use lives here, with where it came from. Change a
+# value here (or override it on the command line) rather than in the code.
+# Elasticities are given as low / central / high; memos always report the range.
+#
+# Last reviewed: 2026-10-20.
+
+window:
+  start_year: 2027        # first tax year a proposal takes effect
+  years: 10
+
+macro:
+  nominal_gdp_growth:
+    value: 0.0375
+    source: >-
+      Assumption, roughly in line with medium-term nominal GDP growth in recent
+      PBO and Finance Canada outlooks (about 3.5-4%). Check against the latest
+      PBO Economic and Fiscal Outlook before publishing.
+  cpi_inflation:
+    value: 0.02
+    source: Bank of Canada inflation target; used to index brackets and credits.
+  interest_rate_series:
+    value: BD.CDN.10YR.DQ.YLD
+    source: Bank of Canada 10-year benchmark bond yield (latest), used for debt-service cost.
+
+pit:
+  data_years: [2024]      # CRA Table 2 tax year used for the income distribution
+  brackets_2026:
+    thresholds: [0, 58523, 117045, 181440, 258482]
+    rates: [0.14, 0.205, 0.26, 0.29, 0.33]
+    source: CRA, 2026 federal rates and indexed thresholds (indexation factor 2.0%).
+  basic_personal_amount_2026:
+    value: 16452
+    source: >-
+      CRA, 2026 maximum basic personal amount. Filers below it have a zero
+      marginal rate, so they are excluded from the behavioural response.
+  basic_personal_amount_min_2026:
+    value: 14829
+    source: >-
+      CRA, 2026 basic personal amount for incomes at the top bracket threshold;
+      the enhanced part phases out between the fourth and fifth thresholds.
+  credit_indexation_since_data_year:
+    values: {2025: 0.027, 2026: 0.020}
+    source: CRA indexation factors for 2025 and 2026; CPI assumption thereafter.
+  credit_rate_in_data_year:
+    value: 0.15
+    source: >-
+      Lowest federal rate in the 2024 tax year. CRA's "total tax credits on
+      personal amounts" is a credit value, so the base is value / 0.15.
+  quebec_abatement:
+    value: 0.165
+    source: Income Tax Act s.120(2); federal basic tax of Quebec residents is reduced 16.5%.
+  provincial_marginal_rate:
+    values: [0.07, 0.10, 0.12, 0.15, 0.20]
+    source: >-
+      Rough population-weighted provincial marginal rates for each federal
+      bracket. Used only for the behavioural response and the provincial
+      spillover, not the static cost. Low-confidence; refine by province in Phase 2.
+  eti:
+    lower_brackets:
+      low: 0.05
+      central: 0.14
+      high: 0.25
+      source: >-
+        Sillamaa & Veall (2001, J. Public Econ.), about 0.14 for Canada's 1988
+        reform; Saez, Slemrod & Giertz (2012, JEL) survey range.
+    top_bracket:
+      low: 0.20
+      central: 0.40
+      high: 0.66
+      source: >-
+        Central 0.4: Laurin (C.D. Howe, 2015) for a federal change. High 0.66:
+        Milligan & Smart (2015, CJE) for the top 1%, estimated from provincial
+        variation, so it includes interprovincial shifting and overstates a
+        federal response.
+
+cit:
+  data_year: 2024
+  revenue:
+    value: 96_953_481_000
+    source: Public Accounts of Canada 2025, Vol. II, Table 1, corporate income tax, FY 2024-25.
+  general_rate: 0.15
+  small_business_rate: 0.09
+  general_base_per_revenue_dollar:
+    value: 4.77
+    source: >-
+      StatCan table 33-10-0006 (2019, last year published): taxable income at the
+      general rate (about $250B) / total federal corporate tax ($52.4B). Cross-check:
+      PBO Ready Reckoner (2014) put one point of the general rate at $1.85B, about
+      4.7% of that year's corporate revenue.
+  small_base_per_revenue_dollar:
+    value: 1.51
+    source: >-
+      StatCan table 33-10-0006 (2019): small business deduction $15.0B / 19-point
+      deduction = about $79B of small-business income, / $52.4B federal corporate tax.
+  provincial_general_rate:
+    value: 0.115
+    source: Approximate weighted average of provincial general corporate rates (ON 11.5%, QC 11.5%, BC 12%, AB 8%).
+  provincial_small_rate:
+    value: 0.03
+    source: Approximate weighted average of provincial small business rates.
+  base_elasticity:
+    low: 0.10
+    central: 0.25
+    high: 0.50
+    source: >-
+      Elasticity of corporate taxable income with respect to the net-of-tax rate.
+      Central: Gruber & Rauh (2007), about 0.2 (US). High: values implied by
+      Dahlby & Ferede (2012) for Canadian provinces, which include cross-province
+      shifting. Short-run only: no investment or growth response (Tier 3).
+
+gst:
+  data_year: 2024
+  net_revenue:
+    value: 52_502_806_000
+    source: Public Accounts of Canada 2025, Vol. II, Table 1, GST, FY 2024-25 (net of the GST credit).
+  gst_credit:
+    value: 6_266_125_515
+    source: Public Accounts of Canada 2025, Vol. II, Section 21, GST/HST credit to persons, FY 2024-25.
+  rate: 0.05
+  combined_sales_tax_rate:
+    value: 0.12
+    source: Approximate federal + provincial sales tax rate on a typical taxable purchase.
+  base_elasticity:
+    low: 0.0
+    central: 0.10
+    high: 0.30
+    source: >-
+      Illustrative. Response of the taxable consumption base to its tax-inclusive
+      price; no strong Canadian estimate. The GST credit is indexed to CPI, not the
+      GST rate, so it does not change with the rate.
+
+capital_gains:
+  data_years: [2022, 2023, 2024]
+  inclusion_rate: 0.5
+  provincial_rate_on_gains:
+    value: 0.18
+    source: Rough average provincial marginal rate for filers realising most gains (high incomes).
+  realization_elasticity:
+    low: 0.30
+    central: 0.70
+    high: 1.20
+    source: >-
+      Elasticity of realisations with respect to the tax rate on gains. Range spans
+      persistent (lower) and transitory (higher) estimates in the US literature,
+      e.g. Dowd, McClelland & Muthitacharoen (2015). No strong Canadian estimate.
+
+benchmarks:
+  # Published estimates the memo compares against. Not used in the calculations.
+  pit_lowest_rate_cut_2025:
+    text: >-
+      PBO (June 2025): lowest rate 15% to 14%. Gross $64B over five years, less
+      $35.7B from lower-value credits = net $28.2B, about $6B a year in 2026-30.
+  pit_top_rate_2016:
+    text: >-
+      2016 top bracket (29% to 33% above $200,000): more than $3B a year static,
+      about $1.2B after behavioural response (Alexandre Laurin, C.D. Howe Institute).
+  cit_ready_reckoner_2014:
+    text: PBO Ready Reckoner (2014), one point of the general corporate rate = $1.85B a year; small business rate = $0.59B.
+  gst_ready_reckoner_2014:
+    text: PBO Ready Reckoner (2014), one point of GST = $6.4B a year.
+  capital_gains_2024:
+    text: >-
+      Budget 2024: inclusion rate to two-thirds (above $250,000 for individuals;
+      all gains for corporations and trusts), $19.4B over five years. Most of that
+      was corporate, which this model does not cover. The measure was cancelled in 2025.

@@ -1,0 +1,202 @@
+{
+    "terms": {
+        "url": "https://www.bankofcanada.ca/terms/"
+    },
+    "seriesDetail": {
+        "BD.CDN.10YR.DQ.YLD": {
+            "label": "Benchmark bond yield, 10-year",
+            "description": "The yield on the Government of Canada 10-year benchmark bond. This series represents the prevailing market interest rate for the 10-year Government of Canada bond and is used as a reference for financial market analysis and reporting.",
+            "dimension": {
+                "key": "d",
+                "name": "Date"
+            },
+            "dateFormat": "daily",
+            "metadata": {
+                "unit": "Percent",
+                "frequency": "Business daily"
+            }
+        }
+    },
+    "observations": [
+        {
+            "d": "2026-10-19",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.93"
+            }
+        },
+        {
+            "d": "2026-10-16",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.84"
+            }
+        },
+        {
+            "d": "2026-10-15",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.83"
+            }
+        },
+        {
+            "d": "2026-10-14",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.85"
+            }
+        },
+        {
+            "d": "2026-10-13",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.87"
+            }
+        },
+        {
+            "d": "2026-10-09",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.86"
+            }
+        },
+        {
+            "d": "2026-10-08",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.93"
+            }
+        },
+        {
+            "d": "2026-10-07",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.94"
+            }
+        },
+        {
+            "d": "2026-10-06",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.92"
+            }
+        },
+        {
+            "d": "2026-10-05",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.96"
+            }
+        },
+        {
+            "d": "2026-10-02",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.93"
+            }
+        },
+        {
+            "d": "2026-10-01",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.94"
+            }
+        },
+        {
+            "d": "2026-09-29",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.99"
+            }
+        },
+        {
+            "d": "2026-09-28",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.96"
+            }
+        },
+        {
+            "d": "2026-09-25",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.94"
+            }
+        },
+        {
+            "d": "2026-09-24",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.97"
+            }
+        },
+        {
+            "d": "2026-09-23",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.96"
+            }
+        },
+        {
+            "d": "2026-09-22",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.83"
+            }
+        },
+        {
+            "d": "2026-09-21",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.84"
+            }
+        },
+        {
+            "d": "2026-09-18",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.87"
+            }
+        },
+        {
+            "d": "2026-09-17",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.83"
+            }
+        },
+        {
+            "d": "2026-09-16",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.92"
+            }
+        },
+        {
+            "d": "2026-09-15",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.95"
+            }
+        },
+        {
+            "d": "2026-09-14",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.94"
+            }
+        },
+        {
+            "d": "2026-09-11",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.95"
+            }
+        },
+        {
+            "d": "2026-09-10",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.94"
+            }
+        },
+        {
+            "d": "2026-09-09",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.84"
+            }
+        },
+        {
+            "d": "2026-09-08",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.81"
+            }
+        },
+        {
+            "d": "2026-09-04",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.77"
+            }
+        },
+        {
+            "d": "2026-09-03",
+            "BD.CDN.10YR.DQ.YLD": {
+                "v": "3.79"
+            }
+        }
+    ]
+}

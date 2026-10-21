@@ -1,0 +1,6 @@
+{
+  "source": "Canada Revenue Agency, Individual Income Tax Return Statistics, 2024 tax year, Table 2 (all of Canada)",
+  "url": "https://www.canada.ca/content/dam/cra-arc/prog-policy/stats/t1-final-stats/2024-tax-year/tbl2_ac_en.csv",
+  "retrieved": "2026-10-20",
+  "notes": "Amounts in thousands of dollars in the source; converted to dollars on load."
+}
