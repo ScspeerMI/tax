@@ -55,11 +55,13 @@ To change an assumption for one run, add `--set`, for example
 Each cached file has a `.meta.json` file beside it, recording where it came from and when
 it was downloaded. To refresh the data, run with `--refresh`.
 
-## The web explorer (`docs/`)
+## Back of the Envelope: the web explorer (`docs/`)
+
+Live at https://seanspeer.com/tax/.
 
 An interactive page for personal income tax reforms: edit brackets, rates and the
 basic personal amount, and see revenue, filers affected and the average tax change
-by income group. It is intended for publication at seanspeer.com/tax and has not been published yet.
+by income group. It is published from this repository's `docs/` folder with GitHub Pages; pushing to `main` updates the live site.
 
 - Preview it locally: start the `tax-explorer` server (Claude can do this), or run
   `python -m http.server 8767 --directory docs` and open http://localhost:8767.
