@@ -58,23 +58,50 @@ function buildPresets(cl) {
   ];
 }
 
+// The link records only what differs from current law, so it stays short:
+//   (nothing)               current law
+//   #top29                  a preset
+//   #r=14,20.5,26,29,30     custom rates (t= thresholds and b= basic amount only if changed)
+//   ...&large               behavioural case, when not central
+// Older links that spell everything out (t=0,...&r=...&b=...&c=high) still open.
+const CASE_IN_URL = { low: "small", high: "large" };
+
 function fromHash() {
-  const h = new URLSearchParams(location.hash.slice(1));
-  if (!h.has("t") || !h.has("r")) return null;
-  const thresholds = h.get("t").split(",").map(Number);
-  const rates = h.get("r").split(",").map((v) => Number(v) / 100);
-  if (thresholds.length !== rates.length || thresholds.some(isNaN) || rates.some(isNaN) || thresholds[0] !== 0) return null;
-  const b = h.has("b") ? Number(h.get("b")) : NaN;
-  return {
-    thresholds, rates,
-    bpa_max: b >= 0 ? b : currentLaw.bpa_max,
-    case: ["low", "central", "high"].includes(h.get("c")) ? h.get("c") : "central",
-  };
+  const tokens = location.hash.slice(1).split("&").filter(Boolean);
+  if (!tokens.length) return null;
+  let s = { ...currentLaw, case: "central" };
+  for (const tok of tokens) {
+    const [key, value = ""] = tok.split("=");
+    const preset = presets.find(([id]) => id === key);
+    const nums = value.split(",").map(Number);
+    if (preset && !value) s = { ...preset[2], case: s.case };
+    else if (key === "small" || key === "large") s.case = key === "small" ? "low" : "high";
+    else if (key === "c" && ["low", "central", "high"].includes(value)) s.case = value;
+    else if (key === "t") s.thresholds = nums[0] === 0 ? nums : [0, ...nums];
+    else if (key === "r") s.rates = nums.map((v) => v / 100);
+    else if (key === "b") s.bpa_max = nums[0];
+    else return null;
+  }
+  const ok = s.thresholds.length === s.rates.length && !s.thresholds.some(isNaN) && !s.rates.some(isNaN) && s.bpa_max >= 0;
+  return ok ? s : null;
 }
 
 function toHash(s) {
-  const r = s.rates.map((v) => +(v * 100).toFixed(3));
-  return `t=${s.thresholds.join(",")}&r=${r.join(",")}&b=${s.bpa_max}&c=${s.case}`;
+  const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+  const parts = [];
+  const id = matchPreset();
+  if (id !== "custom") {
+    if (id !== "current") parts.push(id);
+  } else {
+    const rates = s.rates.map((v) => +(v * 100).toFixed(3));
+    if (!same(s.thresholds, currentLaw.thresholds)) parts.push(`t=${s.thresholds.slice(1).join(",")}`);
+    if (!same(rates, currentLaw.rates.map((v) => +(v * 100).toFixed(3))) || !same(s.thresholds, currentLaw.thresholds)) {
+      parts.push(`r=${rates.join(",")}`);
+    }
+    if (s.bpa_max !== currentLaw.bpa_max) parts.push(`b=${s.bpa_max}`);
+  }
+  if (CASE_IN_URL[s.case]) parts.push(CASE_IN_URL[s.case]);
+  return parts.join("&");
 }
 
 // --- the form ---
@@ -147,7 +174,8 @@ function run() {
     updateMobileBar("Check the highlighted field", true);
     return;
   }
-  history.replaceState(null, "", `#${toHash(state)}`);
+  const hash = toHash(state);
+  history.replaceState(null, "", hash ? `#${hash}` : location.pathname + location.search);
   $("bpa-hint").textContent = state.bpa_max === currentLaw.bpa_max ? "" : `Current law ${dollars(currentLaw.bpa_max)}`;
   const reform = { thresholds: state.thresholds, rates: state.rates, bpa_max: state.bpa_max, bpa_min: currentLaw.bpa_min };
   render(score(reform, data.params, data.records, data.groups));
